@@ -1,0 +1,239 @@
+<?xml version="1.0"?>
+<robot name="thirabot_k10" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find k3_test_description)/urdf/gazebo.urdf.xacro"/>
+    <xacro:include filename="$(find k3_test_description)/urdf/inertia_macro.urdf.xacro"/>
+    <xacro:include filename="$(find k3_test_description)/urdf/insert_transmission.urdf.xacro"/>
+
+
+    <link name="base_footprint"/>
+    <link name="base_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://k3_test_description/meshes/main_frame.dae" scale="1 1 1"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://k3_test_description/meshes/main_frame.dae" scale="1 1 1"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="80.0"/>
+            <inertia ixx="2.38222598299" ixy="-0.05739554441" ixz="-0.00191389514" iyy="5.177315735" iyz="-0.0016813482" izz="6.73941100954"/>
+        </inertial>
+    </link>
+
+    <joint name="base_link_fixed" type="fixed">
+        <parent link="base_footprint"/>
+        <child link="base_link"/>
+        <origin xyz="0 0 0.0825" rpy="0 0 0"/>
+    </joint>
+
+    <xacro:macro name="insert_main_wheel" params="prefix dir">
+        <link name="${prefix}_wheel_fixed_axis">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 ${dir * 90*pi/180}"/>
+                <geometry>
+                    <mesh filename="package://k3_test_description/meshes/main_wheel_axis.dae" scale="1 1 1"/>
+                </geometry>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 ${dir * 90*pi/180}"/>
+                <geometry>
+                    <mesh filename="package://k3_test_description/meshes/main_wheel_axis.dae" scale="1 1 1"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 ${dir * 90*pi/180}"/>
+                <mass value="1.0"/>
+                <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+            </inertial>
+        </link>
+
+        <joint name="${prefix}_wheel_fixed_joint" type="fixed">
+            <parent link="base_link"/>
+            <child link="${prefix}_wheel_fixed_axis"/>
+            <origin xyz="0 ${dir * 0.2245} 0" rpy="0 0 0"/>
+        </joint>
+
+        <link name="${prefix}_wheel">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 ${dir * 90*pi/180}"/>
+                <geometry>
+                    <mesh filename="package://k3_test_description/meshes/main_wheel_body.dae" scale="1 1 1"/>
+                </geometry>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 ${dir * 90*pi/180}"/>
+                <geometry>
+                    <mesh filename="package://k3_test_description/meshes/main_wheel_body.dae" scale="1 1 1"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 ${dir * 90*pi/180}"/>
+                <mass value="5.0"/>
+                <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+            </inertial>
+        </link>
+
+        <joint name="${prefix}_wheel_joint" type="continuous">
+            <parent link="${prefix}_wheel_fixed_axis"/>
+            <child link="${prefix}_wheel"/>
+            <axis xyz="0 1 0"/>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </joint>
+        <xacro:insert_velocity_transmission name="${prefix}_wheel_joint"/>
+    </xacro:macro>
+
+    <xacro:insert_main_wheel prefix="l" dir="1"/>
+    <xacro:insert_main_wheel prefix="r" dir="-1"/>
+
+    <xacro:macro name="insert_caster_wheel" params="prefix dir">
+        <link name="${prefix}_caster_mount">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://k3_test_description/meshes/caster_mount.dae" scale="1 1 1"/>
+                </geometry>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://k3_test_description/meshes/caster_mount.dae" scale="1 1 1"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <mass value="1.0"/>
+                <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+            </inertial>
+        </link>
+
+        <joint name="${prefix}_caster_mount_fixed" type="fixed">
+            <parent link="base_link"/>
+            <child link="${prefix}_caster_mount"/>
+            <origin xyz="${dir * 0.3375} 0 0.0405" rpy="0 0 0"/>
+        </joint>
+
+        <link name="${prefix}_caster_rotate">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://k3_test_description/meshes/caster_rotate.dae" scale="1 1 1"/>
+                </geometry>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://k3_test_description/meshes/caster_rotate.dae" scale="1 1 1"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <mass value="1.0"/>
+                <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+            </inertial>
+        </link>
+
+        <joint name="${prefix}_caster_rotate_joint" type="continuous">
+            <parent link="${prefix}_caster_mount"/>
+            <child link="${prefix}_caster_rotate"/>
+            <axis xyz="0 0 1"/>
+            <origin xyz="0 0 -0.022" rpy="0 0 0"/>
+        </joint>
+
+        <link name="${prefix}_caster_tilt">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://k3_test_description/meshes/caster_tilt.dae" scale="1 1 1"/>
+                </geometry>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://k3_test_description/meshes/caster_tilt.dae" scale="1 1 1"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <mass value="1.0"/>
+                <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+            </inertial>
+        </link>
+
+        <joint name="${prefix}_caster_tilt_joint" type="revolute">
+            <parent link="${prefix}_caster_rotate"/>
+            <child link="${prefix}_caster_tilt"/>
+            <axis xyz="1 0 0"/>
+            <origin xyz="-0.030 0 -0.0635" rpy="0 0 0"/>
+            <limit effort="100" velocity="1.0" lower="${-5*pi/180}" upper="${5*pi/180}"/>
+        </joint>
+
+        <link name="${prefix}_caster_wheel1">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 ${90*pi/180}"/>
+                <geometry>
+                    <mesh filename="package://k3_test_description/meshes/caster_wheel.dae" scale="1 1 1"/>
+                </geometry>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="${90*pi/180} 0 0"/>
+                <geometry>
+                    <!-- <mesh filename="package://k3_test_description/meshes/caster_wheel.dae" scale="1 1 1"/> -->
+                    <cylinder radius="0.0375" length="0.030"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0 0 0" rpy="${90*pi/180} 0 0"/>
+                <mass value="1.0"/>
+                <!-- <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/> -->
+                    <xacro:cylinder_inertia m="1.0" r="0.0375" h="0.030"/>
+            </inertial>
+        </link>
+
+        <joint name="${prefix}_caster_wheel1_joint" type="continuous">
+            <parent link="${prefix}_caster_tilt"/>
+            <child link="${prefix}_caster_wheel1"/>
+            <axis xyz="0 1 0"/>
+            <origin xyz="0 -0.034 0" rpy="0 0 0"/>
+        </joint>
+
+        <link name="${prefix}_caster_wheel2">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 ${-90*pi/180}"/>
+                <geometry>
+                    <mesh filename="package://k3_test_description/meshes/caster_wheel.dae" scale="1 1 1"/>
+                </geometry>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 ${-90*pi/180}"/>
+                <geometry>
+                    <mesh filename="package://k3_test_description/meshes/caster_wheel.dae" scale="1 1 1"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 ${-90*pi/180}"/>
+                <mass value="1.0"/>
+                <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+            </inertial>
+        </link>
+
+        <joint name="${prefix}_caster_wheel2_joint" type="continuous">
+            <parent link="${prefix}_caster_tilt"/>
+            <child link="${prefix}_caster_wheel2"/>
+            <axis xyz="0 1 0"/>
+            <origin xyz="0 0.034 0" rpy="0 0 0"/>
+        </joint>
+    </xacro:macro>
+
+    <xacro:insert_caster_wheel prefix="f" dir="1"/>
+    <xacro:insert_caster_wheel prefix="r" dir="-1"/>
+
+
+
+</robot>

@@ -1,0 +1,10 @@
+<launch>
+        <arg name="robot_model" default="v1"/>
+        <arg name="application" default="default"/>
+
+        <rosparam file="$(find k3_test_control)/config/controllers.yaml" command="load" />
+        <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="true"
+                        output="screen" args="joint_state_controller
+                                              base_controller">
+        </node>
+</launch>
