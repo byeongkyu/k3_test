@@ -48,9 +48,9 @@
                 </geometry>
             </collision>
             <inertial>
-                <origin xyz="0 0 0" rpy="0 0 ${dir * 90*pi/180}"/>
+                <origin xyz="-0.005351 0 0" rpy="0 0 ${dir * 90*pi/180}"/>
                 <mass value="1.0"/>
-                <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+                <inertia ixx="0.000051226" ixy="0.0" ixz="0.0" iyy="0.001861631" iyz="0.0" izz="0.001859351"/>
             </inertial>
         </link>
 
@@ -75,8 +75,8 @@
             </collision>
             <inertial>
                 <origin xyz="0 0 0" rpy="0 0 ${dir * 90*pi/180}"/>
-                <mass value="5.0"/>
-                <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+                <mass value="12.0"/>
+                <inertia ixx="0.037394" ixy="0.0" ixz="0.0" iyy="0.024470" iyz="0.0" izz="0.024470"/>
             </inertial>
         </link>
 
@@ -107,9 +107,9 @@
                 </geometry>
             </collision>
             <inertial>
-                <origin xyz="0 0 0" rpy="0 0 0"/>
-                <mass value="1.0"/>
-                <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+                <origin xyz="0 0 -0.01" rpy="0 0 0"/>
+                <mass value="1.579"/>
+                <inertia ixx="0.00133437338" ixy="0.0" ixz="0.0" iyy="0.00133595613" iyz="0.0" izz="0.00254792224"/>
             </inertial>
         </link>
 
@@ -133,9 +133,9 @@
                 </geometry>
             </collision>
             <inertial>
-                <origin xyz="0 0 0" rpy="0 0 0"/>
-                <mass value="1.0"/>
-                <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+                <origin xyz="-0.006856 0 -0.022825" rpy="0 0 0"/>
+                <mass value="1.824"/>
+                <inertia ixx="0.00162071448" ixy="0.0" ixz="0.0" iyy="0.00210140087" iyz="0.0" izz="0.00205468149"/>
             </inertial>
         </link>
 
@@ -161,8 +161,8 @@
             </collision>
             <inertial>
                 <origin xyz="0 0 0" rpy="0 0 0"/>
-                <mass value="1.0"/>
-                <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+                <mass value="0.319"/>
+                <inertia ixx="0.00039368351" ixy="0.0" ixz="0.0" iyy="0.00002810787" iyz="0.0" izz="0.00038530588"/>
             </inertial>
         </link>
 
@@ -182,17 +182,15 @@
                 </geometry>
             </visual>
             <collision>
-                <origin xyz="0 0 0" rpy="${90*pi/180} 0 0"/>
+                <origin xyz="0 0 0" rpy="0 0 ${90*pi/180}"/>
                 <geometry>
-                    <!-- <mesh filename="package://k3_test_description/meshes/caster_wheel.dae" scale="1 1 1"/> -->
-                    <cylinder radius="0.0375" length="0.030"/>
+                    <mesh filename="package://k3_test_description/meshes/caster_wheel.dae" scale="1 1 1"/>
                 </geometry>
             </collision>
             <inertial>
-                <origin xyz="0 0 0" rpy="${90*pi/180} 0 0"/>
-                <mass value="1.0"/>
-                <!-- <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/> -->
-                    <xacro:cylinder_inertia m="1.0" r="0.0375" h="0.030"/>
+                <origin xyz="0 0 0" rpy="0 0 ${90*pi/180}"/>
+                <mass value="0.936"/>
+                <inertia ixx="0.00065654885" ixy="0.0" ixz="0.0" iyy="0.00039382798" iyz="0.0" izz="0.00039372956"/>
             </inertial>
         </link>
 
@@ -218,8 +216,8 @@
             </collision>
             <inertial>
                 <origin xyz="0 0 0" rpy="0 0 ${-90*pi/180}"/>
-                <mass value="1.0"/>
-                <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+                <mass value="0.936"/>
+                <inertia ixx="0.00065654885" ixy="0.0" ixz="0.0" iyy="0.00039382798" iyz="0.0" izz="0.00039372956"/>
             </inertial>
         </link>
 
@@ -233,7 +231,4 @@
 
     <xacro:insert_caster_wheel prefix="f" dir="1"/>
     <xacro:insert_caster_wheel prefix="r" dir="-1"/>
-
-
-
 </robot>
