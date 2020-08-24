@@ -36,19 +36,19 @@
     <xacro:macro name="insert_main_wheel" params="prefix dir">
         <link name="${prefix}_wheel_fixed_axis">
             <visual>
-                <origin xyz="0 0 0" rpy="0 0 ${dir * 90*pi/180}"/>
+                <origin xyz="0 0 0" rpy="0 0 ${dir * -90*pi/180}"/>
                 <geometry>
                     <mesh filename="package://k3_test_description/meshes/main_wheel_axis.dae" scale="1 1 1"/>
                 </geometry>
             </visual>
             <collision>
-                <origin xyz="0 0 0" rpy="0 0 ${dir * 90*pi/180}"/>
+                <origin xyz="0 0 0" rpy="0 0 ${dir * -90*pi/180}"/>
                 <geometry>
                     <mesh filename="package://k3_test_description/meshes/main_wheel_axis.dae" scale="1 1 1"/>
                 </geometry>
             </collision>
             <inertial>
-                <origin xyz="-0.005351 0 0" rpy="0 0 ${dir * 90*pi/180}"/>
+                <origin xyz="-0.005351 0 0" rpy="0 0 ${dir * -90*pi/180}"/>
                 <mass value="1.0"/>
                 <inertia ixx="0.000051226" ixy="0.0" ixz="0.0" iyy="0.001861631" iyz="0.0" izz="0.001859351"/>
             </inertial>
@@ -62,19 +62,19 @@
 
         <link name="${prefix}_wheel">
             <visual>
-                <origin xyz="0 0 0" rpy="0 0 ${dir * 90*pi/180}"/>
+                <origin xyz="0 0 0" rpy="0 0 ${dir * -90*pi/180}"/>
                 <geometry>
                     <mesh filename="package://k3_test_description/meshes/main_wheel_body.dae" scale="1 1 1"/>
                 </geometry>
             </visual>
             <collision>
-                <origin xyz="0 0 0" rpy="0 0 ${dir * 90*pi/180}"/>
+                <origin xyz="0 0 0" rpy="0 0 ${dir * -90*pi/180}"/>
                 <geometry>
                     <mesh filename="package://k3_test_description/meshes/main_wheel_body.dae" scale="1 1 1"/>
                 </geometry>
             </collision>
             <inertial>
-                <origin xyz="0 0 0" rpy="0 0 ${dir * 90*pi/180}"/>
+                <origin xyz="0 0 0" rpy="0 0 ${dir * -90*pi/180}"/>
                 <mass value="12.0"/>
                 <inertia ixx="0.037394" ixy="0.0" ixz="0.0" iyy="0.024470" iyz="0.0" izz="0.024470"/>
             </inertial>
@@ -231,4 +231,103 @@
 
     <xacro:insert_caster_wheel prefix="f" dir="1"/>
     <xacro:insert_caster_wheel prefix="r" dir="-1"/>
+
+
+    <xacro:macro name="insert_lidar_link" params="prefix dir">
+        <link name="${prefix}_lidar_mount">
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://k3_test_description/meshes/sick_tim5series.dae" scale="1 1 1"/>
+                </geometry>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0.0429" rpy="0 0 0"/>
+                <geometry>
+                    <!-- <mesh filename="package://k3_test_description/meshes/sick_tim5series.dae" scale="1 1 1"/> -->
+                    <cylinder radius="0.03" length="0.0858"/>
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="-0.003 0 0.03288" rpy="0 0 0"/>
+                <mass value="1.639"/>
+                <inertia ixx="0.00115131613" ixy="0.0" ixz="0.0" iyy="0.00119095223" iyz="0.0" izz="0.00079335523"/>
+            </inertial>
+        </link>
+
+        <joint name="${prefix}_lidar_mount_fixed" type="fixed">
+            <parent link="base_link"/>
+            <child link="${prefix}_lidar_mount"/>
+            <origin xyz="${dir*0.386743} ${dir*-0.241743} 0.1225" rpy="0 0 ${(45-(dir*90))*pi/180}"/>
+        </joint>
+
+        <link name="${prefix}_lidar"/>
+        <joint name="${prefix}_lidar_fixed" type="fixed">
+            <parent link="${prefix}_lidar_mount"/>
+            <child link="${prefix}_lidar"/>
+            <origin xyz="-0.001 0 0.06246" rpy="0 0 0"/>
+        </joint>
+    </xacro:macro>
+
+    <xacro:insert_lidar_link prefix="front" dir="1"/>
+    <xacro:insert_lidar_link prefix="rear" dir="-1"/>
+
+
+    <link name="top_lift_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://k3_test_description/meshes/top_lift.dae" scale="1 1 1"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://k3_test_description/meshes/top_lift.dae" scale="1 1 1"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0.024915" rpy="0 0 0"/>
+            <mass value="4.899"/>
+            <inertia ixx="0.1708252641" ixy="0.0" ixz="0.0" iyy="0.1708252641" iyz="0.0" izz="0.03212389119"/>
+        </inertial>
+    </link>
+
+    <joint name="top_lift_joint" type="prismatic">
+        <parent link="base_link"/>
+        <child link="top_lift_link"/>
+        <axis xyz="0 0 1"/>
+        <origin xyz="0 0 0.1555" rpy="0 0 0"/>
+        <limit effort="100" velocity="0.2" lower="0" upper="0.04"/>
+    </joint>
+    <xacro:insert_position_transmission name="top_lift_joint"/>
+
+    <link name="top_turn_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://k3_test_description/meshes/top_turn.dae" scale="1 1 1"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://k3_test_description/meshes/top_turn.dae" scale="1 1 1"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0.004993" rpy="0 0 0"/>
+            <mass value="15.496"/>
+            <inertia ixx="0.28045670659" ixy="0.0" ixz="0.0" iyy="0.27999536295" iyz="0.0" izz="0.56019388486"/>
+        </inertial>
+    </link>
+
+    <joint name="top_turn_joint" type="revolute">
+        <parent link="top_lift_link"/>
+        <child link="top_turn_link"/>
+        <axis xyz="0 0 1"/>
+        <origin xyz="0 0 0.05" rpy="0 0 0"/>
+        <limit effort="100" velocity="0.6" lower="${-4*pi}" upper="${4*pi}"/>
+    </joint>
+    <xacro:insert_position_transmission name="top_turn_joint"/>
 </robot>

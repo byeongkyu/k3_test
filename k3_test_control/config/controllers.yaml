@@ -2,7 +2,6 @@ joint_state_controller:
   type: joint_state_controller/JointStateController
   publish_rate: 25
 
-
 base_controller:
   type        : "diff_drive_controller/DiffDriveController"
   left_wheel  : 'l_wheel_joint'
@@ -45,3 +44,11 @@ base_controller:
       max_velocity           : 1.5  # rad/s
       has_acceleration_limits: true
       max_acceleration       : 1.8  # rad/s^2
+
+lift_controller:
+  type: position_controllers/JointPositionController
+  joint: top_lift_joint
+
+turn_controller:
+  type: position_controllers/JointPositionController
+  joint: top_turn_joint

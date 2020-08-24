@@ -69,13 +69,13 @@
                         <horizontal>
                             <samples>576</samples>
                             <resolution>1</resolution>
-                            <min_angle>${-120/180*pi}</min_angle>
-                            <max_angle>${120/180*pi}</max_angle>
+                            <min_angle>${-135/180*pi}</min_angle>
+                            <max_angle>${135/180*pi}</max_angle>
                         </horizontal>
                     </scan>
                     <range>
                         <min>0.10</min>
-                        <max>25.0</max>
+                        <max>15.0</max>
                         <resolution>0.01</resolution>
                     </range>
                     <noise>
@@ -91,6 +91,9 @@
             </sensor>
         </gazebo>
     </xacro:macro>
+
+    <xacro:insert_lidar prefix="front"/>
+    <xacro:insert_lidar prefix="rear"/>
 
     <!-- <gazebo reference="qr_reader">
         <sensor type="camera" name="camera">
