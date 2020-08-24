@@ -1,5 +1,5 @@
 <launch>
-    <arg name="world_name" default="empty_world"/>
+    <arg name="world_name" default="test_world"/>
 
     <include file="$(find k3_test_gazebo)/launch/bringup_gazebo.launch">
         <arg name="world_name" value="$(arg world_name)"/>
