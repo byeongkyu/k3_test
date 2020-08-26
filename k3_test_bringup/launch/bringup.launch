@@ -2,6 +2,11 @@
     <include file="$(find k3_test_gazebo)/launch/bringup.launch"/>
     <include file="$(find k3_test_control)/launch/bringup_controller.launch"/>
 
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+        <rosparam param="source_list">[joint_states]</rosparam>
+        <param name="rate" value="50.0" />
+    </node>
+
     <node name="f_lidar_topic_relay" type="relay" pkg="topic_tools" output="screen" args="front_scan scan"/>
     <node name="r_lidar_topic_relay" type="relay" pkg="topic_tools" output="screen" args="rear_scan scan"/>
 </launch>
