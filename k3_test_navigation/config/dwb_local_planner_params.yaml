@@ -5,13 +5,13 @@ LocalPlannerAdapter:
 DWBLocalPlanner:
   # Robot configuration
   max_vel_x:  1.5
-  min_vel_x: -0.1
+  min_vel_x: -0.5
 
   max_vel_y: 0.0  # diff drive robot
   min_vel_y: 0.0  # diff drive robot
 
   max_speed_xy: 1.5    # max_trans_vel: 0.8  # choose slightly less than the base's capability
-  min_speed_xy: -0.1    # min_trans_vel: 0.1  # this is the min trans velocity when there is negligible rotational velocity
+  min_speed_xy: -0.5    # min_trans_vel: 0.1  # this is the min trans velocity when there is negligible rotational velocity
 
   max_vel_theta: 1.2    # max_rot_vel: 1.0  # choose slightly less than the base's capability
                         # 최소 회전 속도의 실제 값, 지정된 값 보다 빨라지지 않음.

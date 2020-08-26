@@ -1,7 +1,7 @@
 robot_base_frame: base_link
 transform_tolerance: 0.4
-update_frequency: 5.0
-publish_frequency: 1.0
+update_frequency: 10.0
+publish_frequency: 5.0
 obstacle_range: 5.0
 #mark_threshold: 1
 publish_voxel_map: true
