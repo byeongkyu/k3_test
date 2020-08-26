@@ -1,0 +1,7 @@
+geometry_msgs/PoseStamped[] waypoints
+geometry_msgs/PoseStamped final_goal
+---
+bool result
+---
+bool is_moving
+geometry_msgs/PoseStamped current_goal
