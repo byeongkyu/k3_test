@@ -2,6 +2,12 @@
     <include file="$(find k3_test_gazebo)/launch/bringup.launch"/>
     <include file="$(find k3_test_control)/launch/bringup_controller.launch"/>
 
+    <include file="$(find k3_test_navigation)/launch/bringup_navigation.launch"/>
+    <node name="waypoint_move_client" type="waypoint_move_client.py" pkg="k3_test_waypoint_navigation" output="screen"/>
+    <node name="waypoint_navigation" type="waypoint_navigation.py" pkg="k3_test_waypoint_navigation" output="screen">
+        <remap from="odom" to="base_controller/odom"/>
+    </node>
+
     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
         <rosparam param="source_list">[joint_states]</rosparam>
         <param name="rate" value="50.0" />
